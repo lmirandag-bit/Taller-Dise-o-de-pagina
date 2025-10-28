@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contacto - LmSm</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Estilos añadidos (solo en HTML) para centrar y hacer coincidir anchos -->
+  <style>
+    /* Contenedor principal de la sección */
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      width: 92%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 40px;
+      box-sizing: border-box;
+      align-items: start;
+    }
+
+    /* Forzar que el formulario ocupe toda la fila del grid */
+    .producto.full {
+      grid-column: 1 / -1;
+    }
+
+    /* Hacer que también el primer bloque de contacto ocupe toda la fila
+       y se centre con el mismo ancho que el contenedor (coincide con el formulario) */
+    .productos > .producto:first-child {
+      grid-column: 1 / -1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    /* Ajustes responsivos: en pantallas pequeñas usar 1 columna */
+    @media (max-width: 800px) {
+      .productos {
+        grid-template-columns: 1fr;
+        width: 96%;
+        gap: 16px;
+      }
+    }
+
+    /* Opcional: centrar el contenido interior del bloque contacto */
+    .producto {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo-nombre">
+        <img src="img/logo.png" alt="Logo de la empresa">
+        <div>
+          <h1>LmSm</h1>
+          <p class="slogan">Impulsamos el futuro, hoy.</p>
+        </div>
+      </div>
+
+      <nav class="menu-graficos">
+        <a href="index.html" class="item">
+          <img src="img/Inicio.png" alt="Inicio">
+          <span>Inicio</span>
+        </a>
+
+        <a href="Productos.html" class="item">
+          <img src="img/carrito.png" alt="Productos">
+          <span>Productos</span>
+        </a>
+
+        <a href="acerca.html" class="item">
+          <img src="img/acerca.png" alt="Acerca de">
+          <span>Acerca de</span>
+        </a>
+
+        <a href="https://www.unicartagena.edu.co/" class="item">
+          <img src="img/universidad.png" alt="Universidad de Cartagena">
+          <span>Universidad</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="productos">
+      <div class="producto">
+        <h2>Contacto</h2>
+        <p>¿Tienes una duda, sugerencia o quieres trabajar con nosotros? Escríbenos.</p>
+        <p><strong>Email:</strong> smoncrieffch@unicartagena.edu.co / lmirandag@unicartagena.co</p>
+        <p><strong>Teléfono:</strong> +57 305 311 3153</p>
+        <p><strong>Dirección:</strong> Universidad de Cartagena — Sede Piedra de Bolívar</p>
+        <p><strong>Horario de atencion:</strong> Lunes a Viernes — 8:00 a.m. a 5:00 p.m.</p>
+      </div>
+
+      <div class="producto full">
+        <h2>Formulario de contacto</h2>
+        <form id="contactForm" onsubmit="return enviarMail(event)" novalidate>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <input type="text" id="name" name="name" placeholder="Tu nombre" required style="flex:1; padding:10px; border-radius:6px;"/>
+            <input type="email" id="email" name="email" placeholder="Tu email" required style="flex:1; padding:10px; border-radius:6px;"/>
+          </div>
+
+          <input type="text" id="subject" name="subject" placeholder="Asunto" required style="width:100%; margin-top:10px; padding:10px; border-radius:6px;"/>
+
+          <textarea id="message" name="message" rows="6" placeholder="Escribe tu mensaje..." required style="width:100%; margin-top:10px; padding:10px; border-radius:6px;"></textarea>
+
+          <div style="text-align:center; margin-top:12px;">
+            <button type="submit" style="background:none; border:none; color:#1e3a8a; font-weight:bold; cursor:pointer;">
+              Enviar mensaje
+            </button>
+          </div>
+          <p id="formNote" style="font-size:0.9em; color:#475569; text-align:center; margin-top:8px;">
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <div class="volver" style="text-align:center; margin-top:18px;">
+      <a href="index.html">← Volver al inicio</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p>Creado por: <strong>Luis Miranda</strong> y <strong>Samuel Moncrief</strong> © 2025</p>
+      <p>
+        <a href="mailto:luis@empresa.com?subject=Consulta">Contactenos[Luis]</a> |
+        <a href="mailto:samuel@empresa.com?subject=Consulta">Contactenos[Samuel]</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Envío vía mailto: (boceto). Abre el cliente de correo del usuario.
+    function enviarMail(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim() || 'Contacto desde web';
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) {
+        alert('Por favor completa todos los campos requeridos.');
+        return false;
+      }
+
+      const body = encodeURIComponent(
+        `Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`
+      );
+
+      // Ajusta el destinatario si quieres otro email
+      const mailto = `mailto:samuel@empresa.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+      window.location.href = mailto;
+      return false;
+    }
+  </script>
+</body>
+</html>
